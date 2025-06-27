@@ -1,0 +1,213 @@
+/* Estilos base */
+body {
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+    transition: all 0.4s ease-in-out;
+}
+
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Modo oscuro */
+body.light {
+    background: #f7fafc;
+    color: #1a202c;
+}
+
+body.light header {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+body.light #videos,
+body.light #stats,
+body.light #success,
+body.light #how-it-works,
+body.light #faq,
+body.light #blog {
+    background: #edf2f7;
+}
+
+body.light #benefits,
+body.light #contact {
+    background: #e2e8f0;
+}
+
+body.light .text-white {
+    color: #1a202c;
+}
+
+body.light .text-gray-300 {
+    color: #4a5568;
+}
+
+/* Glassmorphism */
+.bg-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Animaciones */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(0, 168, 89, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(0, 168, 89, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(0, 168, 89, 0.5); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+.glow-effect:hover {
+    animation: glow 1.5s infinite;
+    transform: scale(1.05);
+}
+
+/* Header */
+header.scrolled {
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Video Card */
+.video-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.video-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.overlay {
+    transition: opacity 0.4s ease;
+}
+
+/* Swiper */
+.swiper-container {
+    padding-bottom: 40px;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #00a859;
+}
+
+.swiper-button-prev, .swiper-button-next {
+    color: #00a859;
+    transition: transform 0.4s ease;
+}
+
+.swiper-button-prev:hover, .swiper-button-next:hover {
+    transform: scale(1.2);
+}
+
+/* Beneficios */
+.benefit-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Casos de Éxito */
+.success-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.success-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* FAQ */
+.faq-toggle {
+    transition: all 0.3s ease;
+}
+
+.faq-toggle:hover {
+    color: #00a859;
+}
+
+.faq-content {
+    transition: max-height 0.3s ease;
+}
+
+/* Blog */
+.blog-card {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Formulario */
+#form-message.success {
+    color: #00a859;
+    animation: fadeIn 0.5s ease;
+}
+
+#form-message.error {
+    color: #ef4444;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Scroll Progress */
+#scroll-progress {
+    z-index: 1000;
+}
+
+/* Parallax */
+.parallax-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-cols-3, .grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+
+    #hero h2 {
+        font-size: 3rem;
+    }
+
+    #hero p {
+        font-size: 1.25rem;
+    }
+
+    .video-card iframe, .video-card canvas {
+        height: 60vh;
+    }
+
+    .swiper-container {
+        padding: 0 10px;
+    }
+
+    #hero-3d, .lottie-benefit, .lottie-success, .lottie-blog, #carousel-3d, #lottie-image {
+        display: none;
+    }
+
+    .gsap-hero-image, .benefit-card img, .success-card img, .blog-card img {
+        display: block !important;
+    }
+}

@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Pro - Automatización Futurista para WhatsApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0a0a0a;
+            color: #e6e6e6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+        }
+        .neon-text {
+            text-shadow: 0 0 10px #00ddeb, 0 0 20px #00ddeb, 0 0 30px #00ddeb, 0 0 5px #00ddeb, 0 0 10px #00ddeb;
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+            transform: perspective(500px) rotateX(15deg);
+            transition: transform 0.3s ease;
+        }
+        .neon-text:hover {
+            transform: perspective(500px) rotateX(20deg) scale(1.05);
+        }
+        @keyframes neonGlow {
+            from { text-shadow: 0 0 5px #00ddeb, 0 0 10px #00ddeb, 0 0 15px #00ddeb, 0 0 3px #00ddeb, 0 0 6px #00ddeb; }
+            to { text-shadow: 0 0 10px #00ddeb, 0 0 20px #00ddeb, 0 0 30px #00ddeb, 0 0 5px #00ddeb, 0 0 10px #00ddeb; }
+        }
+        .glow-button {
+            background: linear-gradient(45deg, #00ddeb, #00b7eb);
+            box-shadow: 0 0 10px #00ddeb, 0 0 20px #00ddeb;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 20px #00ddeb, 0 0 30px #00ddeb;
+            transform: scale(1.05);
+        }
+        .section-bg {
+            background-color: rgba(20, 20, 20, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.3);
+        }
+        .parallax-video {
+            transform: translateZ(-10px) scale(1.1);
+            transition: transform 0.5s ease-out;
+        }
+        .float-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .pulse-cta {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .explode-on-click {
+            position: relative;
+            overflow: hidden;
+        }
+        .explode-on-click::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 221, 235, 0.3) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .explode-on-click.clicked::after {
+            width: 300px;
+            height: 300px;
+            opacity: 1;
+            animation: explode 0.5s ease-out;
+        }
+        @keyframes explode {
+            0% { width: 0; height: 0; opacity: 0.3; }
+            100% { width: 300px; height: 300px; opacity: 0; }
+        }
+        .rotate-icon {
+            animation: rotate 4s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .circular-progress {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#00ddeb 0deg, transparent 0deg);
+            transform: rotate(-90deg);
+        }
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        nav a:hover {
+            color: #00ddeb;
+            text-shadow: 0 0 5px #00ddeb;
+        }
+        .stats-highlight {
+            background: rgba(0, 221, 235, 0.1);
+            border-left: 4px solid #00ddeb;
+        }
+        .swiper-container {
+            max-width: 1200px;
+            height: 650px;
+            margin: 0 auto;
+            perspective: 2000px;
+        }
+        .video-card video {
+            height: 100% !important;
+            width: 100%;
+            object-fit: cover;
+        }
+        .swiper-slide {
+            width: 400px !important;
+            height: 600px !important;
+            margin: 0 20px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+        }
+        .swiper-container .swiper-wrapper {
+            transition-timing-function: ease-out;
+        }
+        .swiper-coverflow {
+            perspective: 1200px;
+        }
+        .swiper-button-prev, .swiper-button-next {
+            color: #00ddeb;
+        }
+        #robot-3d {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-900 text-gray-200">
+    <div id="scroll-progress" class="fixed top-0 right-0 h-full w-2 bg-gradient-to-b from-[#00ddeb] to-[#00b7eb] transform scale-y-0 origin-top transition-transform duration-300"></div>
+    <a href="https://wa.me/593998118953" target="_blank" class="whatsapp-float fixed bottom-6 right-6 bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white p-4 rounded-full shadow-lg hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition float-icon z-50">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+    <button id="theme-toggle" class="fixed top-6 right-16 bg-gray-800 text-white p-2 rounded-full z-50">
+        <i class="fas fa-moon rotate-icon"></i>
+    </button>
+    <header id="header" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto flex justify-between items-center py-4">
+            <h1 class="text-2xl font-semibold font-orbitron text-[#00ddeb] neon-text">ChatBot Pro</h1>
+            <ul class="flex space-x-6">
+                <li><a href="#hero" class="text-gray-300 hover:text-[#00ddeb] transition">Inicio</a></li>
+                <li><a href="#videos" class="text-gray-300 hover:text-[#00ddeb] transition">Demos</a></li>
+                <li><a href="#benefits" class="text-gray-300 hover:text-[#00ddeb] transition">Beneficios</a></li>
+                <li><a href="#stats" class="text-gray-300 hover:text-[#00ddeb] transition">Estadísticas</a></li>
+                <li><a href="#success" class="text-gray-300 hover:text-[#00ddeb] transition">Casos de Éxito</a></li>
+                <li><a href="#how-it-works" class="text-gray-300 hover:text-[#00ddeb] transition">Cómo Funciona</a></li>
+                <li><a href="#faq" class="text-gray-300 hover:text-[#00ddeb] transition">FAQ</a></li>
+                <li><a href="#blog" class="text-gray-300 hover:text-[#00ddeb] transition">Blog</a></li>
+                <li><a href="#contact" class="text-gray-300 hover:text-[#00ddeb] transition">Contacto</a></li>
+                <li><a href="#glossary" class="text-gray-300 hover:text-[#00ddeb] transition">Glosario</a></li>
+                <li><a href="#guides" class="text-gray-300 hover:text-[#00ddeb] transition">Guías</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="hero" class="relative h-screen flex items-center justify-center section-bg">
+        <div id="particles-js" class="absolute inset-0 z-[-1]"></div>
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video1.mp4"></video>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70 opacity-80 z-[-1]"></div>
+        <div class="container mx-auto flex flex-col md:flex-row items-center relative z-10">
+            <div class="md:w-1/2 text-center md:text-left">
+                <h2 class="text-5xl md:text-7xl font-semibold font-orbitron mb-6 neon-text typed-hero"></h2>
+                <p class="text-lg md:text-xl mb-8 text-gray-300 gsap-hero-text" data-aos="fade-up" data-aos-delay="200"></p>
+                <p class="text-md text-gray-400 mb-8">Dato curioso: Los chatbots aumentan las conversiones hasta un 30% (Forbes, 2024).</p>
+                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-10 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button pulse-cta">Solicitar Demo Gratuita</a>
+                <a href="#contact" class="ml-4 bg-gradient-to-r from-[#00b7eb] to-[#0078eb] text-white px-10 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#0078eb] hover:to-[#005feb] transition glow-button pulse-cta">Agenda una Demo Personalizada</a>
+            </div>
+            <div class="md:w-1/2 mt-8 md:mt-0 relative" data-aos="zoom-in" data-aos-delay="300">
+                <canvas id="hero-3d" class="w-full max-w-md mx-auto transform hover:scale-105 transition-transition duration-500"></canvas>
+                <div id="robot-3d"></div>
+            </div>
+        </div>
+    </section>
+    <section id="testimonials" class="py-24 section-bg relative overflow-hidden">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video2.mp4"></video>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-black/70 opacity-50"></div>
+        <div class="container mx-auto text-center relative z-10">
+            <h3 class="text-4xl font-semibold font-orbitron mb-12 neon-text typed-testimonials"></h3>
+            <p class="text-gray-400 mb-8">Escucha lo que nuestros clientes dicen sobre nosotros.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="100">
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/6idg5vUHyx4?si=pbiieVK68ca_nhx2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p class="text-gray-300 mt-4">"El chatbot transformó nuestra atención al cliente, ¡impresionante!"</p>
+                    <p class="text-[#00ddeb] font-medium mt-2">- Juan Pérez, Tienda Online</p>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="200">
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/-dckINo-9-4?si=uDbjDcT-LHRR3AE2&start=310" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p class="text-gray-300 mt-4">"Aumentamos ventas un 35% gracias a esta solución."</p>
+                    <p class="text-[#00ddeb] font-medium mt-2">- María Gómez, Agencia de Viajes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="videos" class="py-24 section-bg">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video3.mp4"></video>
+        <div class="container mx-auto">
+            <h3 class="text-4xl font-semibold text-center font-orbitron mb-12 neon-text typed-videos"></h3>
+            <p class="text-center text-gray-300 max-w-xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="100">Descubre cómo nuestros chatbots optimizan la atención al cliente, automatizan procesos y potencian las ventas con estas demostraciones interactivas. ¡Explora su poder en tiempo real!</p>
+            <div class="swiper-container max-w-6xl mx-auto">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" data-aos="fade-up" data-aos-delay="100">
+                        <div class="video-card relative shadow-lg overflow-hidden" style="width: 400px; height: 600px;">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline controls>
+                                <source src="videos/prueba1.mp4" type="video/mp4">
+                                Tu navegador no soporta el video.
+                            </video>
+                            <div class="overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <h4 class="text-sm font-medium mb-2">Demostración 1</h4>
+                                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-2 py-0.5 rounded-full text-sm hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Solicita el Tuyo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-aos="fade-up" data-aos-delay="200">
+                        <div class="video-card relative shadow-lg overflow-hidden" style="width: 400px; height: 600px;">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline controls>
+                                <source src="videos/prueba2.mp4" type="video/mp4">
+                                Tu navegador no soporta el video.
+                            </video>
+                            <div class="overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <h4 class="text-sm font-medium mb-2">Demostración 2</h4>
+                                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-2 py-0.5 rounded-full text-sm hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Solicita el Tuyo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-aos="fade-up" data-aos-delay="300">
+                        <div class="video-card relative shadow-lg overflow-hidden" style="width: 400px; height: 600px;">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline controls>
+                                <source src="videos/prueba3.mp4" type="video/mp4">
+                                Tu navegador no soporta el video.
+                            </video>
+                            <div class="overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <h4 class="text-sm font-medium mb-2">Demostración 3</h4>
+                                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-2 py-0.5 rounded-full text-sm hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Solicita el Tuyo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-aos="fade-up" data-aos-delay="400">
+                        <div class="video-card relative shadow-lg overflow-hidden" style="width: 400px; height: 600px;">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline controls>
+                                <source src="videos/prueba4.mp4" type="video/mp4">
+                                Tu navegador no soporta el video.
+                            </video>
+                            <div class="overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <h4 class="text-sm font-medium mb-2">Demostración 4</h4>
+                                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-2 py-0.5 rounded-full text-sm hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Solicita el Tuyo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-aos="fade-up" data-aos-delay="500">
+                        <div class="video-card relative shadow-lg overflow-hidden" style="width: 400px; height: 600px;">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline controls>
+                                <source src="videos/prueba5.mp4" type="video/mp4">
+                                Tu navegador no soporta el video.
+                            </video>
+                            <div class="overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <h4 class="text-sm font-medium mb-2">Demostración 5</h4>
+                                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-2 py-0.5 rounded-full text-sm hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Solicita el Tuyo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-aos="fade-up" data-aos-delay="600">
+                        <div class="video-card relative shadow-lg overflow-hidden" style="width: 400px; height: 600px;">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline controls>
+                                <source src="videos/prueba6.mp4" type="video/mp4">
+                                Tu navegador no soporta el video.
+                            </video>
+                            <div class="overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <h4 class="text-sm font-medium mb-2">Demostración 6</h4>
+                                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-2 py-0.5 rounded-full text-sm hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Solicita el Tuyo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" data-aos="fade-up" data-aos-delay="700">
+                        <div class="video-card relative shadow-lg overflow-hidden" style="width: 400px; height: 600px;">
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline controls>
+                                <source src="videos/prueba7.mp4" type="video/mp4">
+                                Tu navegador no soporta el video.
+                            </video>
+                            <div class="overlay absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <h4 class="text-sm font-medium mb-2">Demostración 7</h4>
+                                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-2 py-0.5 rounded-full text-sm hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Solicita el Tuyo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            <div class="text-center mt-8" data-aos="fade-up" data-aos-delay="800">
+                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button pulse-cta">Descubre Más Demostraciones</a>
+            </div>
+            <div class="mt-12 max-w-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="900">
+                <div class="p-4 stats-highlight rounded-lg">
+                    <p class="text-2xl font-semibold text-[#00ddeb]">80%</p>
+                    <p class="text-gray-300">Consultas resueltas por IA</p>
+                </div>
+                <div class="p-4 stats-highlight rounded-lg">
+                    <p class="text-2xl font-semibold text-[#00ddeb]">35%</p>
+                    <p class="text-gray-300">Aumento en ventas</p>
+                </div>
+                <div class="p-4 stats-highlight rounded-lg">
+                    <p class="text-2xl font-semibold text-[#00ddeb]">24/7</p>
+                    <p class="text-gray-300">Atención sin pausas</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="benefits" class="py-24 section-bg relative">
+        <div id="particles-js" class="absolute inset-0 z-0"></div>
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video4.mp4"></video>
+        <div class="container mx-auto relative z-10">
+            <h3 class="text-4xl font-semibold text-center font-orbitron mb-12 neon-text typed-benefits"></h3>
+            <p class="text-center text-gray-400 mb-8">95% de los clientes prefieren respuestas instantáneas.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="benefit-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="img/imagen6.jpg" alt="Atención 24/7" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h4 class="text-xl font-medium mb-2">Atención 24/7</h4>
+                    <p class="text-gray-300">Responde a tus clientes en cualquier momento, sin pausas.</p>
+                </div>
+                <div class="benefit-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="img/imagen7.png" alt="Respuesta Instantánea" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h4 class="text-xl font-medium mb-2">Respuesta Instantánea</h4>
+                    <p class="text-gray-300">Automatiza respuestas rápidas y precisas.</p>
+                </div>
+                <div class="benefit-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="img/imagen5.png" alt="Aumento de Conversiones" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h4 class="text-xl font-medium mb-2">Aumento de Conversiones</h4>
+                    <p class="text-gray-300">Guía a tus clientes hacia la compra.</p>
+                </div>
+                <div class="benefit-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="img/imagen6.jpg" alt="Personalización Avanzada" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h4 class="text-xl font-medium mb-2">Personalización Avanzada</h4>
+                    <p class="text-gray-300">Adapta el chatbot a tu marca.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="stats" class="py-24 section-bg">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video5.mp4"></video>
+        <div class="container mx-auto text-center">
+            <h3 class="text-4xl font-semibold font-orbitron mb-12 neon-text typed-stats"></h3>
+            <p class="text-gray-400 mb-8">Dato curioso: Los chatbots reducen costos operativos hasta un 25% (Gartner, 2024).</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="circular-progress mx-auto mb-4">
+                        <div class="relative w-full h-full flex items-center justify-center">
+                            <p class="text-2xl font-medium text-[#00ddeb] countup" data-count="500">0</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">Chatbots Activos</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <div class="circular-progress mx-auto mb-4">
+                        <div class="relative w-full h-full flex items-center justify-center">
+                            <p class="text-2xl font-medium text-[#00ddeb] countup" data-count="200">0</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">Negocios Automatizados</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <div class="circular-progress mx-auto mb-4">
+                        <div class="relative w-full h-full flex items-center justify-center">
+                            <p class="text-2xl font-medium text-[#00ddeb] countup" data-count="99">0</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">Satisfacción</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="success" class="py-24 section-bg relative">
+        <div id="particles-success" class="absolute inset-0 z-0"></div>
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video6.mp4"></video>
+        <div class="container mx-auto relative z-10">
+            <h3 class="text-4xl font-semibold text-center font-orbitron mb-12 neon-text typed-success"></h3>
+            <p class="text-center text-gray-400 mb-8">Transforma tu WhatsApp ahora con historias reales de éxito.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="success-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="img/imagen10.jpg" alt="Tienda Online" class="w-32 h-32 mx-auto mb-4 object-cover">
+                    <h4 class="text-xl font-medium mb-2">Tienda Online</h4>
+                    <p class="text-gray-300 mb-4">"Aumentamos nuestras ventas un 40% con el chatbot de WhatsApp."</p>
+                    <p class="text-gray-400 text-sm">– Ana G., CEO</p>
+                </div>
+                <div class="success-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="img/imagen3.jpg" alt="Agencia de Viajes" class="w-32 h-32 mx-auto mb-4 object-cover">
+                    <h4 class="text-xl font-medium mb-2">Agencia de Viajes</h4>
+                    <p class="text-gray-300 mb-4">"Respondemos a clientes 24/7, mejorando nuestra atención."</p>
+                    <p class="text-gray-400 text-sm">– Carlos M., Gerente</p>
+                </div>
+                <div class="success-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="img/imagen2.jpg" alt="Educación Online" class="w-32 h-32 mx-auto mb-4 object-cover">
+                    <h4 class="text-xl font-medium mb-2">Educación Online</h4>
+                    <p class="text-gray-300 mb-4">"Nuestros estudiantes reciben soporte instantáneo."</p>
+                    <p class="text-gray-400 text-sm">– Laura P., Directora</p>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button pulse-cta">Conoce Más Casos</a>
+            </div>
+        </div>
+    </section>
+    <section id="how-it-works" class="py-24 section-bg relative">
+        <div id="particles-how" class="absolute inset-0 z-0"></div>
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video1.mp4"></video>
+        <div class="container mx-auto relative z-10">
+            <h3 class="text-4xl font-semibold text-center font-orbitron mb-12 neon-text typed-how-it-works"></h3>
+            <p class="text-center text-gray-400 mb-8">Dato curioso: El 80% de las consultas pueden resolverse con IA (IBM, 2024).</p>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2" data-aos="slide-right" data-aos-delay="100">
+                    <svg id="chatbot-diagram" class="w-full h-64" viewBox="0 0 400 200">
+                        <rect x="50" y="30" width="100" height="60" rx="10" fill="#00ddeb" class="diagram-node" />
+                        <text x="100" y="60" text-anchor="middle" fill="#e0e0e0" font-size="14">Usuario</text>
+                        <rect x="250" y="30" width="100" height="60" rx="10" fill="#1a1a1a" class="diagram-node" />
+                        <text x="300" y="60" text-anchor="middle" fill="#e0e0e0" font-size="14">Chatbot</text>
+                        <path d="M150 60 H250" stroke="#00ddeb" stroke-width="2" class="diagram-line" />
+                        <text x="200" y="50" text-anchor="middle" fill="#00ddeb" font-size="12">Mensaje</text>
+                        <path d="M250 60 H150" stroke="#1a1a1a" stroke-width="2" class="diagram-line" />
+                        <text x="200" y="80" text-anchor="middle" fill="#1a1a1a" font-size="12">Respuesta</text>
+                    </svg>
+                </div>
+                <div class="md:w-1/2 mt-8 md:mt-0 md:pl-8" data-aos="slide-left" data-aos-delay="200">
+                    <p class="text-gray-300 mb-4">Nuestros chatbots usan IA avanzada para procesar mensajes en tiempo real, integrándose con WhatsApp para ofrecer respuestas personalizadas y automatizadas.</p>
+                    <p class="text-gray-300">Flujo: El usuario envía un mensaje, el chatbot lo analiza y responde instantáneamente, guiando al cliente hacia la conversión.</p>
+                    <a href="#contact" class="mt-4 inline-block bg-gradient-to-r from-[#00b7eb] to-[#0078eb] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#0078eb] hover:to-[#005feb] transition glow-button pulse-cta">Prueba la Tecnología</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="faq" class="py-24 section-bg relative">
+        <div id="particles-faq" class="absolute inset-0 z-0"></div>
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video2.mp4"></video>
+        <div class="container mx-auto relative z-10">
+            <h3 class="text-4xl font-semibold text-center font-orbitron mb-12 neon-text typed-faq"></h3>
+            <p class="text-center text-gray-400 mb-8">Todo lo que necesitas saber sobre nuestros chatbots.</p>
+            <div class="max-w-2xl mx-auto space-y-4">
+                <div class="faq-item bg-gray-800 p-6 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                    <button class="faq-toggle w-full text-left text-lg font-medium text-gray-200 flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden');">
+                        ¿Qué es un chatbot de WhatsApp?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-300 hidden">Es una herramienta de IA que automatiza respuestas en WhatsApp, mejorando la atención al cliente y las ventas.</div>
+                </div>
+                <div class="faq-item bg-gray-800 p-6 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                    <button class="faq-toggle w-full text-left text-lg font-medium text-gray-200 flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden');">
+                        ¿Es fácil integrarlo?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-300 hidden">Sí, nuestro equipo lo configura en menos de 24 horas.</div>
+                </div>
+                <div class="faq-item bg-gray-800 p-6 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+                    <button class="faq-toggle w-full text-left text-lg font-medium text-gray-200 flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden');">
+                        ¿Funciona con mi negocio?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-300 hidden">Nuestros chatbots son personalizables para cualquier industria.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="glossary" class="py-24 section-bg">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video3.mp4"></video>
+        <div class="container mx-auto">
+            <h3 class="text-4xl font-semibold text-center font-orbitron mb-12 neon-text typed-glossary"></h3>
+            <p class="text-center text-gray-400 mb-8">Conoce los conceptos clave sobre chatbots.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="text-xl font-medium">IA (Inteligencia Artificial)</h4>
+                    <p class="text-gray-300 mt-2">Tecnología que permite a las máquinas simular inteligencia humana, como el aprendizaje y la toma de decisiones.</p>
+                </div>
+                <div class="p-4 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="text-xl font-medium">Chatbot</h4>
+                    <p class="text-gray-300 mt-2">Programa de IA diseñado para interactuar con usuarios mediante mensajes de texto o voz.</p>
+                </div>
+                <div class="p-4 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="text-xl font-medium">API</h4>
+                    <p class="text-gray-300 mt-2">Interfaz que permite la comunicación entre el chatbot y otras aplicaciones, como WhatsApp.</p>
+                </div>
+                <div class="p-4 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="text-xl font-medium">NLP (Procesamiento de Lenguaje Natural)</h4>
+                    <p class="text-gray-300 mt-2">Tecnología que permite a los chatbots entender y responder a lenguaje humano.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="blog" class="py-24 section-bg relative">
+        <div id="particles-blog" class="absolute inset-0 z-0"></div>
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video4.mp4"></video>
+        <div class="container mx-auto relative z-10">
+            <h3 class="text-4xl font-semibold text-center font-orbitron mb-12 neon-text typed-blog"></h3>
+            <p class="text-center text-gray-400 mb-8">Mantente al día con lo último en automatización.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="blog-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="img/imagen10.jpg" alt="Cómo los Chatbots Están Transformando el Comercio" class="w-full h-48 mb-4 object-cover">
+                    <h4 class="text-xl font-medium mb-2">Cómo los Chatbots Están Transformando el Comercio</h4>
+                    <p class="text-gray-300 mb-4">Descubre cómo las empresas están usando IA para aumentar ventas.</p>
+                    <a href="#" class="text-[#00ddeb] hover:text-[#00b7eb]">Leer Más</a>
+                </div>
+                <div class="blog-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="img/imagen3.jpg" alt="El Futuro de la Atención al Cliente" class="w-full h-48 mb-4 object-cover">
+                    <h4 class="text-xl font-medium mb-2">El Futuro de la Atención al Cliente</h4>
+                    <p class="text-gray-300 mb-4">La IA está cambiando la forma en que interactuamos con los clientes.</p>
+                    <a href="#" class="text-[#00ddeb] hover:text-[#00b7eb]">Leer Más</a>
+                </div>
+                <div class="blog-card p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="img/imagen2.jpg" alt="5 Razones para Usar Chatbots" class="w-full h-48 mb-4 object-cover">
+                    <h4 class="text-xl font-medium mb-2">5 Razones para Usar Chatbots</h4>
+                    <p class="text-gray-300 mb-4">Por qué tu negocio necesita automatización hoy.</p>
+                    <a href="#" class="text-[#00ddeb] hover:text-[#00b7eb]">Leer Más</a>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button pulse-cta">Explora Nuestro Blog</a>
+            </div>
+        </div>
+    </section>
+    <section id="offer" class="py-24 section-bg text-center relative">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video6.mp4"></video>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70 opacity-50"></div>
+        <h3 class="text-4xl font-semibold font-orbitron mb-4 neon-text typed-offer"></h3>
+        <p class="text-gray-400 mb-8">¡Obtén un 20% de descuento antes de que termine!</p>
+        <div id="countdown" class="text-2xl font-medium text-[#00ddeb] mb-8"></div>
+        <a href="#contact" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button explode-on-click" onclick="this.classList.add('clicked'); setTimeout(() => this.classList.remove('clicked'), 500)">Aprovecha la Oferta</a>
+    </section>
+    <section id="resources" class="py-24 section-bg">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video1.mp4"></video>
+        <div class="container mx-auto text-center">
+            <h3 class="text-4xl font-semibold font-orbitron mb-12 neon-text typed-resources"></h3>
+            <p class="text-gray-400 mb-8">Descarga guías para empezar a automatizar tu negocio.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="100">
+                    <h4 class="text-xl font-medium mb-2">Guía: Automatiza tu WhatsApp</h4>
+                    <p class="text-gray-300 mb-4">Aprende paso a paso cómo configurar tu chatbot.</p>
+                    <a href="guides/whatsapp-guide.pdf" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-6 py-3 rounded-full hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Descargar</a>
+                </div>
+                <div class="p-6 bg-gray-800 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="200">
+                    <h4 class="text-xl font-medium mb-2">Checklist: Prepara tu Negocio</h4>
+                    <p class="text-gray-300 mb-4">Revisa los pasos clave antes de implementar un chatbot.</p>
+                    <a href="guides/checklist.pdf" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-6 py-3 rounded-full hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Descargar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="partners" class="py-24 section-bg relative">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video2.mp4"></video>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-black/70 opacity-50"></div>
+    </section>
+    <section id="contact" class="py-24 section-bg">
+        <video autoplay muted loop playsinline class="video-overlay parallax-video" src="videos/video3.mp4"></video>
+        <div class="container mx-auto text-center">
+            <h3 class="text-4xl font-semibold font-orbitron mb-12 neon-text typed-contact"></h3>
+            <p class="text-gray-400 mb-8">Transforma tu WhatsApp ahora.</p>
+            <div class="max-w-2xl mx-auto space-y-6">
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg" id="contact-form">
+                    <div data-aos="fade-up" data-aos-delay="100">
+                        <label for="name" class="block text-gray-300 text-lg mb-2">Nombre</label>
+                        <input type="text" id="name" name="name" class="w-full p-4 border rounded-lg bg-gray-900 focus:ring-2 focus:ring-[#00ddeb]" required>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="200">
+                        <label for="email" class="block text-gray-300 text-lg mb-2">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" class="w-full p-4 border rounded-lg bg-gray-900 focus:ring-2 focus:ring-[#00ddeb]" required>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="300">
+                        <label for="phone" class="block text-gray-300 text-lg mb-2">Teléfono</label>
+                        <input type="tel" id="phone" name="phone" value="+593998118953" class="w-full p-4 border rounded-lg bg-gray-900 focus:ring-2 focus:ring-[#00ddeb]" required>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="400">
+                        <label for="message" class="block text-gray-300 text-lg mb-2">Mensaje</label>
+                        <textarea id="message" name="message" class="w-full p-4 border rounded-lg bg-gray-900 focus:ring-2 focus:ring-[#00ddeb]" rows="6" required></textarea>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="500">
+                        <button type="button" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button pulse-cta w-full">Enviar Mensaje</button>
+                    </div>
+                    <div id="form-message" class="hidden text-center mt-4"></div>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg mt-8" id="free-trial-form">
+                    <h4 class="text-2xl font-medium mb-4">Solicita tu Prueba Gratuita</h4>
+                    <div data-aos="fade-up" data-aos-delay="100">
+                        <label for="trial-name" class="block text-gray-300 text-lg mb-2">Nombre</label>
+                        <input type="text" id="trial-name" name="trial-name" class="w-full p-4 border rounded-lg bg-gray-900 focus:ring-2 focus:ring-[#00ddeb]" required>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="200">
+                        <label for="trial-email" class="block text-gray-300 text-lg mb-2">Correo Electrónico</label>
+                        <input type="email" id="trial-email" name="trial-email" class="w-full p-4 border rounded-lg bg-gray-900 focus:ring-2 focus:ring-[#00ddeb]" required>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="300">
+                        <label for="trial-business" class="block text-gray-300 text-lg mb-2">Negocio</label>
+                        <input type="text" id="trial-business" name="trial-business" class="w-full p-4 border rounded-lg bg-gray-900 focus:ring-2 focus:ring-[#00ddeb]" required>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="400">
+                        <button type="button" class="bg-gradient-to-r from-[#00b7eb] to-[#0078eb] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gradient-to-r hover:from-[#0078eb] hover:to-[#005feb] transition glow-button pulse-cta w-full">Solicitar Prueba</button>
+                    </div>
+                    <div id="trial-message" class="hidden text-center mt-4"></div>
+                </div>
+                <a href="https://wa.me/593998118953" class="mt-6 inline-block bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white px-6 py-3 rounded-full hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Chatea con Nosotros</a>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="container mx-auto text-center">
+            <h3 class="text-2xl font-semibold font-orbitron mb-4 text-[#00ddeb]">ChatBot Pro</h3>
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="text-[#00ddeb] hover:text-[#00b7eb]"><i class="fab fa-facebook-f text-2xl rotate-icon"></i></a>
+                <a href="#" class="text-[#00ddeb] hover:text-[#00b7eb]"><i class="fab fa-twitter text-2xl rotate-icon"></i></a>
+                <a href="#" class="text-[#00ddeb] hover:text-[#00b7eb]"><i class="fab fa-linkedin-in text-2xl rotate-icon"></i></a>
+                <button onclick="sharePage()" class="text-[#00ddeb] hover:text-[#00b7eb]"><i class="fas fa-share-alt text-2xl"></i></button>
+            </div>
+            <div class="mt-4 max-w-sm mx-auto flex">
+                <input type="email" placeholder="Suscríbete a nuestro boletín" class="p-3 rounded-l-lg bg-gray-800 text-white w-full focus:outline-none focus:ring-2 focus:ring-[#00ddeb]">
+                <button type="button" class="bg-gradient-to-r from-[#00ddeb] to-[#00b7eb] text-white p-3 rounded-r-lg hover:bg-gradient-to-r hover:from-[#00b7eb] hover:to-[#0078eb] transition glow-button">Suscribirse</button>
+            </div>
+            <p class="text-gray-500 mt-4">© 2025 ChatBot Pro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/libs/draco/gltf/draco_decoder.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.8/dist/countUp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script>
+        AOS.init({ duration: 1000 });
+        window.addEventListener('load', () => {
+            gsap.from("body", { opacity: 0, duration: 1.5, ease: "power3.out" });
+        });
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#00ddeb" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#00ddeb", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } },
+                modes: { repulse: { distance: 100, duration: 0.4 } }
+            }
+        });
+        new Typed('.typed-hero', {
+            strings: ["Automatiza tu Negocio con Chatbots para WhatsApp"],
+            typeSpeed: 40,
+            fadeOut: true,
+            fadeOutDelay: 500,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-testimonials', {
+            strings: ["Testimonios de Clientes"],
+            typeSpeed: 30,
+            backSpeed: 20,
+            fadeOut: true,
+            fadeOutDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-videos', {
+            strings: ["Mira Nuestros Chatbots en Acción"],
+            typeSpeed: 50,
+            backDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-benefits', {
+            strings: ["Beneficios de ChatBot Pro"],
+            typeSpeed: 40,
+            fadeOut: true,
+            fadeOutDelay: 500,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-stats', {
+            strings: ["Nuestro Impacto"],
+            typeSpeed: 30,
+            backSpeed: 20,
+            fadeOut: true,
+            fadeOutDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-success', {
+            strings: ["Casos de Éxito"],
+            typeSpeed: 50,
+            backDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-how-it-works', {
+            strings: ["Cómo Funcionan Nuestros Chatbots"],
+            typeSpeed: 40,
+            fadeOut: true,
+            fadeOutDelay: 500,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-faq', {
+            strings: ["Preguntas Frecuentes"],
+            typeSpeed: 30,
+            backSpeed: 20,
+            fadeOut: true,
+            fadeOutDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-glossary', {
+            strings: ["Glosario de Términos"],
+            typeSpeed: 50,
+            backDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-blog', {
+            strings: ["Últimas Noticias"],
+            typeSpeed: 40,
+            fadeOut: true,
+            fadeOutDelay: 500,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-offer', {
+            strings: ["Oferta Especial"],
+            typeSpeed: 30,
+            backSpeed: 20,
+            fadeOut: true,
+            fadeOutDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-resources', {
+            strings: ["Recursos Gratuitos"],
+            typeSpeed: 50,
+            backDelay: 1000,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.typed-contact', {
+            strings: ["¡Empieza Hoy!"],
+            typeSpeed: 40,
+            fadeOut: true,
+            fadeOutDelay: 500,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+        new Typed('.gsap-hero-text', {
+            strings: ["Convierte cada mensaje en una oportunidad.", "Automatiza tu éxito hoy."],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+        gsap.to(".parallax-video", {
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                scrub: true
+            },
+            y: -100,
+            ease: "none"
+        });
+        const swiper = new Swiper('.swiper-container', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+                rotate: 30,
+                stretch: 0,
+                depth: 400,
+                modifier: 1,
+                slideShadows: true,
+            },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: { nextEl: '.swiper-button-prev', prevEl: '.swiper-button-next' },
+            loop: true,
+            autoplay: { delay: 3000, disableOnInteraction: false },
+            spaceBetween: 50,
+        });
+        gsap.utils.toArray('.circular-progress').forEach(progress => {
+            const countup = progress.querySelector('.countup');
+            const count = parseInt(countup.getAttribute('data-count'));
+            gsap.fromTo(progress, {
+                rotation: 0,
+                background: `conic-gradient(#00ddeb 0deg, transparent 0deg)`
+            }, {
+                rotation: 360,
+                background: `conic-gradient(#00ddeb ${count * 3.6}deg, transparent 0deg)`,
+                duration: 2,
+                ease: "power1.out",
+                scrollTrigger: { trigger: progress, start: "top 80%" }
+            });
+            new CountUp(countup, 0, count, 0, 2, { separator: '' }).start();
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        function startCountdown(endDate) {
+            const countdown = document.getElementById('countdown');
+            gsap.from(countdown, {
+                opacity: 0,
+                scale: 0.5,
+                duration: 1.5,
+                ease: "back.out(1.7)",
+                scrollTrigger: { trigger: "#offer", start: "top 80%" }
+            });
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = endDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                gsap.to(countdown, {
+                    scale: 1.1,
+                    duration: 0.5,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: "power1.inOut"
+                });
+                if (distance < 0) {
+                    clearInterval(interval);
+                    countdown.innerHTML = "Oferta Finalizada";
+                    gsap.to(countdown, { color: "#ef5350", scale: 1.2, duration: 1 });
+                }
+            }, 1000);
+        }
+        const endDate = new Date("July 3, 2025 19:26:00 GMT-0500");
+        startCountdown(endDate);
+        gsap.utils.toArray('.float-icon').forEach(icon => {
+            gsap.to(icon, { y: "-=10", duration: 3, ease: "power1.inOut", repeat: -1, yoyo: true });
+        });
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ChatBot Pro',
+                    text: 'Descubre cómo automatizar tu negocio con ChatBot Pro!',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert('Compartir no está soportado en tu navegador. Copia el enlace: ' + window.location.href);
+            }
+        }
+
+        // Robot 3D Animation
+        let scene, camera, renderer, robot;
+        function initRobot() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(200, 200);
+            document.getElementById('robot-3d').appendChild(renderer.domElement);
+
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ddeb });
+            robot = new THREE.Mesh(geometry, material);
+            scene.add(robot);
+
+            const headGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+            const headMaterial = new THREE.MeshBasicMaterial({ color: 0x00b7eb });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 0.7;
+            robot.add(head);
+
+            camera.position.z = 5;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            document.addEventListener('mousemove', onMouseMove);
+        }
+
+        function onMouseMove(event) {
+            const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            if (robot) {
+                robot.children[0].rotation.y = mouseX * Math.PI / 4;
+                robot.children[0].rotation.x = mouseY * Math.PI / 4;
+            }
+        }
+
+        window.addEventListener('load', initRobot);
+    </script>
+</body>
+</html>
